@@ -20,22 +20,24 @@ block content
   
       #navbarNav.collapse.navbar-collapse
         ul.navbar-nav
-          li.nav-item.active
+          li.nav-item
             a.nav-link(href='/')
               | Home 
+          |       
+          li.nav-item
+            a.nav-link(href='/') 
+              | Login
+          |       
+          li.nav-item.active
+            a.nav-link(href='/register') 
+              | Sign up
               span.sr-only (current)
           |       
-          //-li.nav-item
-            a.nav-link(href='#') Booking
-          |       
-          //-li.nav-item
-            a.nav-link(href='#') 
-          |       
-          //-li.nav-item
-            a.nav-link.disabled(href='#') Disabled
-    br
-    h1= title
-    br 
+          li.nav-item
+            a.nav-link.disabled() Booking
+    h1
+        |
+        span.badge.badge-default Sign up
     .container
       form
         .form-group.row

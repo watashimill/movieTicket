@@ -9,7 +9,7 @@ block content
   
   html
   head
-
+  
   body
     nav.navbar.navbar-toggleable-md.navbar-inverse(style='background-color: #660033;').bg-faded
       button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
@@ -24,40 +24,22 @@ block content
             a.nav-link(href='/')
               | Home 
               
-          |       
+          | 
           li.nav-item.active
-            a.nav-link(href='/') 
-              | Login
+            a.nav-link(href='/booking') 
+              | Booking
               span.sr-only (current)
           |       
           li.nav-item
-            a.nav-link(href='/register') Sign up
+            a.nav-link(href='#') UserEdit
           |       
           li.nav-item
-            a.nav-link.disabled() Booking
+            a.nav-link(href='#') Contract
+          |       
+          
     h1
         |
-        span.badge.badge-default Login
-    form
-      |
-      .form-group
-        label(for='Email') Email
-        |
-        .col-lg-5 
-          input#Email.form-control(aria-describedby='emailHelp', placeholder='Enter Email', type='email')
-        |     
-        
-      .form-group
-        label(for='Password') Password
-        |     
-        .col-lg-5
-          input#Password.form-control(placeholder='Password', type='password' ,aria-describedby='passwordHelpInline')
-
-      |   
-        
-      a.btn.btn-primary(href='/booking', role='button') Sign In 
-      =" "
-      a.btn.btn-inverse(href='/register' , style='background-color: #80FF00' , role='button') Sign up
+        span.badge.badge-default Booking
     
 
     

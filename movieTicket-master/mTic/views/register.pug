@@ -1,0 +1,91 @@
+extends layout
+
+block content
+  
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css', integrity='sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ', crossorigin='anonymous')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js', integrity='sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn', crossorigin='anonymous')
+  
+  
+  
+  html
+  head
+  
+  body(style='background-color : #BEF9E6')
+    nav.navbar.navbar-toggleable-md.navbar-inverse(style='background-color: #660033;').bg-faded
+      button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      |   
+      a.navbar-brand(href='/') Movie Tickets
+      |
+  
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav
+          li.nav-item
+            a.nav-link(href='/')
+              | Home 
+          |       
+          li.nav-item
+            a.nav-link(href='/') 
+              | Login
+          |       
+          li.nav-item.active
+            a.nav-link(href='/register') 
+              | Sign up
+              span.sr-only (current)
+          |       
+          li.nav-item
+            a.nav-link.disabled() Booking
+    br
+    h1
+        |
+        span.badge.badge-default Register
+    br
+    .container
+      form(style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )
+        .form-group.row
+          label.col-sm-2.col-form-label(for='emailRegis' style='margin : 20px 0px 0px 50px;' align="right") Email :
+          |       
+          .col5
+            input#emailRegis.form-control(placeholder='Email', type='email' style='margin : 20px 0px 0px 50px;' )
+        |     
+        .form-group.row
+          label.col-sm-2.col-form-label(for='passwordRegis' style='margin : 0px 0px 0px 50px;' align="right") Password :
+          |       
+          .col5
+            input#passwordRegis.form-control(placeholder='Password', type='password' style='margin : 0px 0px 0px 50px;')
+        |     
+        .form-group.row
+          label.col-sm-2.col-form-label(for='fnameRegis' style='margin : 0px 0px 0px 50px;' align="right") First Name :
+          |       
+          .col5
+            input#fnameRegis.form-control(placeholder='First Name', type='text' style='margin : 0px 0px 0px 50px;')
+        |
+        .form-group.row
+          label.col-sm-2.col-form-label(for='lnameRegis' style='margin : 0px 0px 0px 50px;' align="right") Last Name :
+          |       
+          .col5
+            input#lnameRegis.form-control(placeholder='Last Name', type='text' style='margin : 0px 0px 0px 50px;')
+        |
+        .form-group.row
+          label.col-sm-2.col-form-label(for='telRegis' style='margin : 0px 0px 0px 50px;' align="right") Tel. :
+          |       
+          .col5
+            input#telRegis.form-control(placeholder='Telephone Number', type='text' style='margin : 0px 0px 0px 50px;')
+        |                  
+        .form-group.row
+          .offset-sm-2.col-sm-10
+            a.btn.btn-primary(href='/' ,type='submit' onclick="regissuccess()") Submit
+
+            | 
+            a.btn.btn-primary(href='/index' ,type='submit' style='background-color: #F7211A;') Cancel
+  
+  script.
+    function regissuccess(){
+        alert("SIGN UP SUCCESSFULL!!");
+    }  
+
+    
+
+
+
+  

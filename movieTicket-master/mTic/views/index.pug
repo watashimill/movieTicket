@@ -10,11 +10,12 @@ block content
   html
   head
 
-  body
+  body(style='background-color : #BAF4D1')
     nav.navbar.navbar-toggleable-md.navbar-inverse(style='background-color: #660033;').bg-faded
       button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
-      |   
+      |
+
       a.navbar-brand(href='/') Movie Tickets
       |
 
@@ -35,29 +36,36 @@ block content
           |       
           li.nav-item
             a.nav-link.disabled() Booking
-    h1
-        |
-        span.badge.badge-default Login
-    form
+
+    img(src='home4.png' style='margin: -330px 0px 0px 100px; ' align="center")
+
+      |
+
+    form(style='display: inline-block; border: 2px solid #BABDBC; margin: 200px 0px 0px 150px; background-color: #f1f1f1; ' )
       |
       .form-group
-        label(for='Email') Email
+        label(for='Email' style='margin : 10px 0px 0px 10px;') Email
         |
-        .col-lg-5 
+        .col-lg-12
           input#Email.form-control(aria-describedby='emailHelp', placeholder='Enter Email', type='email')
         |     
         
       .form-group
-        label(for='Password') Password
+        label(for='Password'  style='margin : 0px 0px 0px 10px;') Password
         |     
-        .col-lg-5
+        .col-lg-12
           input#Password.form-control(placeholder='Password', type='password' ,aria-describedby='passwordHelpInline')
 
       |   
-        
-      a.btn.btn-primary(href='/booking', role='button') Sign In 
-      =" "
-      a.btn.btn-inverse(href='/register' , style='background-color: #80FF00' , role='button') Sign up
+
+      a.btn.btn-primary(href='/booking', role='button' style='margin : 0px 0px 20px 10px;') Sign In 
+      a.btn.btn-inverse(href='/register' , style='margin : 0px 0px 20px 10px; background-color: #80FF00;' , role='button' ) Sign up
+
+      br
+
+      a.btn.btn-inverse(href='#' , style='margin : 0px 0px 20px 10px; background-color: #F7A97F;' , role='button' ) Login as administrator
+
+
     
 
     

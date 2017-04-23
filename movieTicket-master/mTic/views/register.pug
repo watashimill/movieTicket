@@ -41,49 +41,73 @@ block content
         span.badge.badge-default Register
     br
     .container
-      form(style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )
+
+
+      
+      form(action='/register', method='post' ,style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )
         .form-group.row
           label.col-sm-2.col-form-label(for='emailRegis' style='margin : 20px 0px 0px 50px;' align="right") Email :
           |       
           .col5
-            input#emailRegis.form-control(placeholder='Email', type='email' style='margin : 20px 0px 0px 50px;' )
+            input#emailRegis.form-control(placeholder='Email',name='email', type='email' style='margin : 20px 0px 0px 50px;' )
         |     
         .form-group.row
           label.col-sm-2.col-form-label(for='passwordRegis' style='margin : 0px 0px 0px 50px;' align="right") Password :
           |       
           .col5
-            input#passwordRegis.form-control(placeholder='Password', type='password' style='margin : 0px 0px 0px 50px;')
+            input#passwordRegis.form-control(placeholder='Password',name='pwd', type='password' style='margin : 0px 0px 0px 50px;')
         |     
         .form-group.row
-          label.col-sm-2.col-form-label(for='fnameRegis' style='margin : 0px 0px 0px 50px;' align="right") First Name :
+          label.col-sm-2.col-form-label(for='fnameRegis' ,style='margin : 0px 0px 0px 50px;' align="right") First Name :
           |       
           .col5
-            input#fnameRegis.form-control(placeholder='First Name', type='text' style='margin : 0px 0px 0px 50px;')
+            input#fnameRegis.form-control(placeholder='First Name',name='firstname', type='text' style='margin : 0px 0px 0px 50px;')
         |
         .form-group.row
           label.col-sm-2.col-form-label(for='lnameRegis' style='margin : 0px 0px 0px 50px;' align="right") Last Name :
           |       
           .col5
-            input#lnameRegis.form-control(placeholder='Last Name', type='text' style='margin : 0px 0px 0px 50px;')
+            input#lnameRegis.form-control(placeholder='Last Name', name='lastname',type='text' style='margin : 0px 0px 0px 50px;')
         |
         .form-group.row
           label.col-sm-2.col-form-label(for='telRegis' style='margin : 0px 0px 0px 50px;' align="right") Tel. :
           |       
           .col5
-            input#telRegis.form-control(placeholder='Telephone Number', type='text' style='margin : 0px 0px 0px 50px;')
+            input#telRegis.form-control(placeholder='Telephone Number',name='phone', type='text' style='margin : 0px 0px 0px 50px;')
         |                  
         .form-group.row
           .offset-sm-2.col-sm-10
-            a.btn.btn-primary(href='/' ,type='submit' onclick="regissuccess()") Submit
+            button.btn.btn-primary(value='Submit' , type='submit' ) Submit
 
             | 
             a.btn.btn-primary(href='/index' ,type='submit' style='background-color: #F7211A;') Cancel
   
+
   script.
     function regissuccess(){
         alert("SIGN UP SUCCESSFULL!!");
     }  
 
+    $(document).ready(function () {
+            $('#user-submit').click(function () {
+                var payload = {
+                    c_email: $('#emailRegis').val()
+                };
+
+                $.ajax({
+                    url: "/register",
+                    type: "POST",
+                    contentType: "application/json",
+                    processData: false,
+                    data: JSON.stringify(payload),
+                    complete: function (data) {
+                        $('#output').html(data.responseText);
+                    }
+                });
+            });
+        });
+
+  p#output
     
 
 

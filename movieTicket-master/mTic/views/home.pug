@@ -1,0 +1,114 @@
+extends layout
+
+block content
+  
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css', integrity='sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ', crossorigin='anonymous')
+  
+  //- script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js', integrity='sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn', crossorigin='anonymous')
+  
+  html
+  head
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    style.
+      * {box-sizing:border-box}
+      .mySlides {display:none}
+      /* Slideshow container */
+      .slideshow-container {
+      max-width: 1000px;
+      position: relative;
+      margin: auto;
+      }
+      /* The dots/bullets/indicators */
+      .dot {
+      height: 13px;
+      width: 13px;
+      margin: 0 2px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
+      }
+      /* Fading animation */
+      .fade {
+      -webkit-animation-name: fade;
+      -webkit-animation-duration: 2.5s;
+      animation-name: fade;
+      animation-duration: 2.5s;
+      }
+      @-webkit-keyframes fade {
+      from {opacity: .4}
+      to {opacity: 1}
+      }
+      @keyframes fade {
+      from {opacity: .4}
+      to {opacity: 1}
+      }
+      /* On smaller screens, decrease text size */
+      @media only screen and (max-width: 300px) {
+      .text {font-size: 11px}
+      }
+  body(style='background-image: url("bg.jpg"); background-repeat: no-repeat; background-size:100%;')
+    nav.navbar.navbar-toggleable-md.navbar-inverse(style='background-color: #660033;').bg-faded
+      button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      |
+
+
+      a.navbar-brand(href='/') Movie Tickets
+      |
+
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav
+          li.nav-item.active
+            a.nav-link(href='/')
+              | Home 
+              span.sr-only (current)
+              
+          |       
+          li.nav-item
+            a.nav-link(href='/login') Login
+          |       
+          li.nav-item
+            a.nav-link(href='/signup') Sign up
+          |       
+         
+
+    br
+    .slideshow-container
+      .mySlides.fade
+        |   
+        img(src='fast8.jpg', style='width:100%')
+        |   
+      .mySlides.fade
+        |   
+        img(src='hack.png', style='width:100%')
+        |   
+      .mySlides.fade
+        |   
+        img(src='dragon2.jpg', style='width:100%')
+        |   
+    br
+
+    div(style='text-align:center')
+      a.btn.btn-primary(href='/login', role='button')
+        font(color="#F7842C", size="4")  ENTER SITE
+          |   
+    script.
+      var slideIndex = 0;
+      showSlides();
+      function showSlides() {
+      var i;
+      var slides = document.getElementsByClassName("mySlides");
+      var dots = document.getElementsByClassName("dot");
+      for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex> slides.length) {slideIndex = 1}
+      for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex-1].style.display = "block";
+      //dots[slideIndex-1].className += " active";
+      setTimeout(showSlides, 3000); // Change image every 2 seconds
+      }

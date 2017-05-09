@@ -1,0 +1,104 @@
+extends layout
+
+block content
+  
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css', integrity='sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ', crossorigin='anonymous')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js', integrity='sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn', crossorigin='anonymous')
+  
+  
+  
+  html
+  head
+  
+  body(style='background-image: url("bg3.jpg"); background-repeat: no-repeat; background-size:100%;')
+    nav.navbar.navbar-toggleable-md.navbar-inverse(style='background-color: #660033;').bg-faded
+      button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      |   
+      a.navbar-brand(href='/') Movie Tickets
+      |
+  
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav 
+          li.nav-item
+            a.nav-link(href='/bookingedit') 
+              | Data Edit
+          |       
+          li.nav-item.active
+            a.nav-link(href='/addadmin')  
+              | Add Admin
+              span.sr-only (current)
+          
+          |       
+          li.nav-item
+            a.nav-link(href='/adminprofile') Admin Profile
+            |
+            span.sr-only 
+          |       
+          li.nav-item
+            a.nav-link(href='/logout') Logout       
+          
+    br
+    h1
+        |
+        span.badge.badge-default Add Another Admin
+    br
+    .container
+      if message.length
+        .alert.alert-danger= message
+
+      form(action="/signup" method="post",style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )
+        .form-group.row
+          label.col-sm-2.col-form-label(style='margin : 20px 0px 0px 50px;' align="right") Username :
+          |       
+          .col5
+            input#userRegis.form-control(name="username",placeholder='Username', type='text' style='margin : 20px 0px 0px 50px;' )
+        |     
+        .form-group.row
+          label.col-sm-2.col-form-label(for='passwordRegis' style='margin : 0px 0px 0px 50px;' align="right") Password :
+          |       
+          .col5
+            input#passwordRegis.form-control(name="password",placeholder='Password', type='password' style='margin : 0px 0px 0px 50px;')
+        |     
+        .form-group.row
+          label.col-sm-2.col-form-label(for='fnameRegis' style='margin : 0px 0px 0px 50px;' align="right") First Name :
+          |       
+          .col5
+            input#fnameRegis.form-control(name="c_fname",placeholder='First Name', type='text' style='margin : 0px 0px 0px 50px;')
+        |
+        .form-group.row
+          label.col-sm-2.col-form-label(for='lnameRegis' style='margin : 0px 0px 0px 50px;' align="right") Last Name :
+          |       
+          .col5
+            input#lnameRegis.form-control(name="c_lname",placeholder='Last Name', type='text' style='margin : 0px 0px 0px 50px;')
+        |
+        .form-group.row
+          label.col-sm-2.col-form-label(for='telRegis' style='margin : 0px 0px 0px 50px;' align="right") Tel. :
+          |       
+          .col5
+            input#telRegis.form-control(name="phone_no",placeholder='Telephone Number', type='text' style='margin : 0px 0px 0px 50px;')
+        |
+        .form-group.row
+          label.col-sm-2.col-form-label(for='emailRegis' style='margin : 0px 0px 0px 50px;' align="right") Email :
+          |       
+          .col5
+            input#emailRegis.form-control(name="c_email",placeholder='Telephone Number', type='text' style='margin : 0px 0px 0px 50px;')
+        |                          
+        .form-group.row
+          .offset-sm-2.col-sm-10
+            button.btn.btn-warning.btn-lg(type='submit') Signup
+            |
+            p
+              | Already have an account?  
+            a.btn.btn-primary(href='/login' ,type='submit' ) Login
+  
+  script.
+    function regissuccess(){
+        alert("SIGN UP SUCCESSFULL!!");
+    }  
+
+    
+
+
+
+  

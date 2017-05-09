@@ -1,4 +1,5 @@
 // routes/routes.js
+
 module.exports = function(app, passport) {
 
 	// =====================================
@@ -51,6 +52,42 @@ module.exports = function(app, passport) {
 		failureFlash : true // allow flash messages
 	}));
 
+
+	app.get('/addadmin', function(req, res) {
+		// render the page and pass in any flash data if it exists
+		res.render('addadmin.pug', { message: req.flash('signupMessage') });
+	});
+
+	// process the signup form
+	app.post('/addadmin', function(req,res) {
+		    
+	});
+
+
+	app.get('/admin', function(req, res) {
+
+		// render the page and pass in any flash data if it exists
+		res.render('admin.pug', { message: req.flash('loginMessage') });
+	});
+
+	// process the login form
+	app.post('/admin', passport.authenticate('local-admin', {
+            successRedirect : '/adminprofile', // redirect to the secure profile section
+            failureRedirect : '/admin', // redirect back to the signup page if there is an error
+            failureFlash : true // allow flash messages
+		}),
+
+        function(req, res) {
+            console.log("helloAdmin");
+
+            if (req.body.remember) {
+              req.session.cookie.maxAge = 1000 * 60 * 3;
+            } else {
+              req.session.cookie.expires = false;
+            }
+        res.redirect('/admin');
+    });
+
 	// =====================================
 	// PROFILE SECTION =========================
 	// =====================================
@@ -58,6 +95,12 @@ module.exports = function(app, passport) {
 	// we will use route middleware to verify this (the isLoggedIn function)
 	app.get('/profile', isLoggedIn, function(req, res) {
 		res.render('profile.pug', {
+			user : req.user // get the user out of session and pass to template
+		});
+	});
+
+	app.get('/adminprofile', isLoggedIn, function(req, res) {
+		res.render('adminprofile.pug', {
 			user : req.user // get the user out of session and pass to template
 		});
 	});

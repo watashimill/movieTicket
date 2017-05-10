@@ -176,7 +176,7 @@ module.exports = function(passport) {
                 if (!bcrypt.compareSync(password, rows[0].password))
                     return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
 
-                if (rows[0].type == "user")
+                if (rows[0].role == "user")
                     return done(null, false, req.flash('loginMessage', 'You are not Admin.'));
 
                 

@@ -1,0 +1,94 @@
+extends layout
+
+block content
+  
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css', integrity='sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ', crossorigin='anonymous')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js', integrity='sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn', crossorigin='anonymous')
+  
+  
+  
+  html
+  head
+  
+  body(style='background-image: url("bg3.jpg"); background-repeat: no-repeat; background-size:100%;')
+    nav.navbar.navbar-toggleable-md.navbar-inverse(style='background-color: #660033;').bg-faded
+      button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      |   
+      a.navbar-brand(href='/') Movie Tickets
+      |
+  
+      #navbarNav.collapse.navbar-collapse
+        ul.navbar-nav 
+          li.nav-item.active
+            a.nav-link(href='/addmovie') 
+              | Add Movie
+          |       
+          li.nav-item
+            a.nav-link(href='/addtheatre')  
+              | Add Theatre
+              span.sr-only 
+          
+          |       
+          li.nav-item
+            a.nav-link(href='/adminprofile') Admin Profile
+            |
+            span.sr-only 
+          |       
+          li.nav-item
+            a.nav-link(href='/logout') Logout       
+          
+  
+    h1
+        |
+        span.badge.badge-default Add Movie    
+    br
+    .container
+      
+
+      form(action="/addmovie" method="post",style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )
+        .form-group.row
+          label.col-sm-2.col-form-label(style='margin : 20px 0px 0px 50px;' align="right") Movie ID :
+          |       
+          .col5
+            input.form-control(name="m_id",placeholder='Movie ID', type='text' style='margin : 20px 0px 0px 50px;' )
+        |     
+        .form-group.row
+          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Movie Name :
+          |       
+          .col5
+            input.form-control(name="m_name",placeholder='Movie Name', type='text' style='margin : 0px 0px 0px 50px;')
+        |     
+        .form-group.row
+          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Actors :
+          |       
+          .col5
+            input.form-control(name="m_actors",placeholder='Actors', type='text' style='margin : 0px 0px 0px 50px;')
+        |
+        .form-group.row
+          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Director :
+          |       
+          .col5
+            input.form-control(name="m_director",placeholder='Director', type='text' style='margin : 0px 0px 0px 50px;')
+        |
+        .form-group.row
+          label.col-sm-2.col-form-label( style='margin : 0px 0px 0px 50px;' align="right") Release Date :
+          |       
+          .col5
+            input.form-control(name="m_releaseDate",placeholder='Release Date', type='text' style='margin : 0px 0px 0px 50px;')
+        |
+                            
+        .form-group.row
+          .offset-sm-2.col-sm-10
+            button.btn.btn-warning.btn-lg(type='submit') Submit
+  
+  script.
+    function regissuccess(){
+        alert("SIGN UP SUCCESSFULL!!");
+    }  
+
+    
+
+
+
+  

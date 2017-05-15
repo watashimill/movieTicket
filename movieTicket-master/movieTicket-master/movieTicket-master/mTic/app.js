@@ -12,6 +12,13 @@ var flash = require('connect-flash');
 var morgan = require('morgan');
 var app = express();
 
+connection = mysql.createConnection({
+		host     : 'localhost',
+		user     : 'root',
+		password : 'Watashimill1',
+		database : 'movieticket'
+	});
+
 require('./config/passport')(passport); // pass passport for configuration
 
 // set up our express application

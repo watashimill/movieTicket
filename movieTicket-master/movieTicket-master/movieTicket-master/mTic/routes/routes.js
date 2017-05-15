@@ -53,16 +53,37 @@ module.exports = function(app, passport) {
 	}));
 
 
-	app.get('/addadmin', function(req, res) {
+	app.get('/addtheatre', function(req, res) {
 		// render the page and pass in any flash data if it exists
-		res.render('addadmin.pug', { message: req.flash('signupMessage') });
+		res.render('addtheatre.pug', { message: req.flash('signupMessage') });
 	});
 
 	// process the signup form
-	app.post('/addadmin', function(req,res) {
+	app.post('/addtheatre', function(req,res) {
 		    
 	});
 
+	app.get('/addmovie', isLoggedIn, function(req, res) {
+		res.render('addmovie.pug', {
+			user : req.user // get the user out of session and pass to template
+		});
+	});
+
+	// process the signup form
+	app.post('/addmovie', function(req,res) {
+		var m_id = req.body.m_id;
+		var m_name = req.body.m_name;
+		var m_actors = req.body.m_actors;
+		var m_director = req.body.m_director;
+		var m_releaseDate = req.body.m_releaseDate;
+		var insertQuery = "INSERT INTO `movieticket`.`movie`(`m_id`,`m_name`,`actors`,`director`,`release_date`) values (?,?,?,?,?)";
+
+                connection.query(insertQuery,[m_id, m_name, m_actors, m_director , m_releaseDate],function(err, rows) {
+                    if (err) throw err;
+                    	res.redirect('/addmovie');
+
+                 });
+	});
 
 	app.get('/admin', function(req, res) {
 

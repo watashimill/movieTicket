@@ -60,7 +60,15 @@ module.exports = function(app, passport) {
 
 	// process the signup form
 	app.post('/addtheatre', function(req,res) {
-		    
+		var t_id = req.body.t_id;
+		var t_location = req.body.t_location;
+		var insertQuery = "INSERT INTO `movieticket`.`theatre`(`theatre_id`,`location`) values (?,?)";
+
+                connection.query(insertQuery,[t_id ,t_location],function(err, rows) {
+                    if (err) throw err;
+                    	res.redirect('/addtheatre');
+
+                 });
 	});
 
 	app.get('/addmovie', isLoggedIn, function(req, res) {

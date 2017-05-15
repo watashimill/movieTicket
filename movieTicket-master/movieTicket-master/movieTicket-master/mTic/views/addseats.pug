@@ -24,40 +24,36 @@ block content
             a.nav-link(href='/addmovie') 
               | Add Movie
           |       
-          li.nav-item.active
+          li.nav-item
             a.nav-link(href='/addtheatre')  
               | Add Theatre
-              span.sr-only (current)
-          
-          |
+              
           li.nav-item
             a.nav-link(href='/addhall') Add Hall
-            |
-            span.sr-only 
+           
           |       
-          li.nav-item
+          li.nav-item.active
             a.nav-link(href='/addseats') Add Seats
             |
             span.sr-only (current)
-          |                    
+          |             
           li.nav-item
             a.nav-link(href='/adminprofile') Admin Profile
-            |
-            span.sr-only 
+             
           |
-                  
+              
           li.nav-item
             a.nav-link(href='/logout') Logout       
           
   
     h1
         |
-        span.badge.badge-default Add Theatre   
+        span.badge.badge-default Add Seats   
     br
     .container
       
 
-      form(action="/addtheatre" method="post",style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )
+      form(action="/addseats" method="post",style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )
         .form-group.row
           label.col-sm-2.col-form-label(style='margin : 20px 0px 0px 50px;' align="right") Theatre ID :
           |       
@@ -65,17 +61,34 @@ block content
             input.form-control(name="t_id",placeholder='Theatre ID', type='text' style='margin : 20px 0px 0px 50px;' )
         |     
         .form-group.row
-          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Theatre Location :
+          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Hall ID :
           |       
           .col5
-            input.form-control(name="t_location",placeholder='Location', type='text' style='margin : 0px 0px 0px 50px;')
-        |     
+            input.form-control(name="h_id",placeholder='Hall ID', type='text' style='margin : 0px 0px 0px 50px;')
+        | 
+        .form-group.row
+          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Seats ID :
+          |       
+          .col5
+            input.form-control(name="s_id",placeholder='Hall Name', type='text' style='margin : 0px 0px 0px 50px;')
+        | 
+        .form-group.row
+          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Seats Name :
+          |       
+          .col5
+            input.form-control(name="s_name",placeholder='Hall Name', type='text' style='margin : 0px 0px 0px 50px;')
+        | 
+        .form-group.row
+          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Seats Number :
+          |       
+          .col5
+            input.form-control(name="s_num",placeholder='Hall Name', type='text' style='margin : 0px 0px 0px 50px;')
+        |          
         
                             
         .form-group.row
           .offset-sm-2.col-sm-10
             button.btn.btn-warning.btn-lg(type='submit') Submit
-  
 
 
     

@@ -29,12 +29,23 @@ block content
               | Add Theatre
               span.sr-only 
           
+          |     
+          li.nav-item
+            a.nav-link(href='/addhall') Add Hall
+            |
+            span.sr-only 
           |       
+          li.nav-item
+            a.nav-link(href='/addseats') Add Seats
+            |
+            span.sr-only 
+          |               
           li.nav-item
             a.nav-link(href='/adminprofile') Admin Profile
             |
             span.sr-only 
-          |       
+          |
+               
           li.nav-item
             a.nav-link(href='/logout') Logout       
           
@@ -82,10 +93,6 @@ block content
           .offset-sm-2.col-sm-10
             button.btn.btn-warning.btn-lg(type='submit') Submit
   
-  script.
-    function regissuccess(){
-        alert("SIGN UP SUCCESSFULL!!");
-    }  
 
     
 

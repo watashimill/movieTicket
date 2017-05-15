@@ -1,81 +1,90 @@
 extends layout
 
 block content
-	
-	link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css', integrity='sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ', crossorigin='anonymous')
-	script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js', integrity='sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn', crossorigin='anonymous')
-	
-	
-	
-	html
-	head
-	
-	body
-		
-		nav.navbar.navbar-toggleable-md.navbar-inverse(style='background-color: #660033;').bg-faded
-			button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
-				span.navbar-toggler-icon
-			|   
-			a.navbar-brand(href='/') Movie Tickets
-			|
+    
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css', integrity='sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ', crossorigin='anonymous')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js', integrity='sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn', crossorigin='anonymous')
+    
+    
+    
+    html
+    head
+    
+    body
+        
+        nav.navbar.navbar-toggleable-md.navbar-inverse(style='background-color: #660033;').bg-faded
+            button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            |   
+            a.navbar-brand(href='/') Movie Tickets
+            |
 
-			#navbarNav.collapse.navbar-collapse
-				ul.navbar-nav
-					
-					li.nav-item
-						a.nav-link(href='/addmovie') Add Movie
-							
-					| 
-					li.nav-item 
-						a.nav-link(href='/addtheatre') Add Theatre
-							
-					|       
-					li.nav-item.active
-						a.nav-link(href='/adminprofile') Admin Profile
-						|
-						span.sr-only (current)
-					|       
-					li.nav-item
-						a.nav-link(href='/logout') Logout
-				 
-		
-		blockquote.blockquote
-	 
-			p.mb-0 
-			| ID
-			footer.blockquote-footer= user.id
-			p.mb-0 
-			| Username
-			footer.blockquote-footer= user.c_username
-			p.mb-0 
-			| Password
-			footer.blockquote-footer= user.password
-			p.mb-0 
-			| Firstname
-			footer.blockquote-footer= user.c_fname
-			p.mb-0 
-			| Lastname
-			footer.blockquote-footer= user.c_lname
-			p.mb-0 
-			| Email
-			footer.blockquote-footer= user.c_email
-			| Status
-			footer.blockquote-footer= user.role
-			
-				 
-			
+            #navbarNav.collapse.navbar-collapse
+                ul.navbar-nav
+                    
+                    li.nav-item
+                        a.nav-link(href='/addmovie') Add Movie
+                            
+                    | 
+                    li.nav-item 
+                        a.nav-link(href='/addtheatre') Add Theatre
+                            
+                    |
+                    li.nav-item
+                        a.nav-link(href='/addhall') Add Hall
+                    |
+                           
+                    li.nav-item
+                        a.nav-link(href='/addseats') Add Seats
+                    |
+                            
+                    li.nav-item.active
+                        a.nav-link(href='/adminprofile') Admin Profile
+                        |
+                        span.sr-only (current)
+                    |
+                    
+                    li.nav-item
+                        a.nav-link(href='/logout') Logout
+                 
+        
+        blockquote.blockquote
+     
+            p.mb-0 
+            | ID
+            footer.blockquote-footer= user.id
+            p.mb-0 
+            | Username
+            footer.blockquote-footer= user.c_username
+            p.mb-0 
+            | Password
+            footer.blockquote-footer= user.password
+            p.mb-0 
+            | Firstname
+            footer.blockquote-footer= user.c_fname
+            p.mb-0 
+            | Lastname
+            footer.blockquote-footer= user.c_lname
+            p.mb-0 
+            | Email
+            footer.blockquote-footer= user.c_email
+            | Status
+            footer.blockquote-footer= user.role
+            
+                 
+            
 
-				
+                
 
 
 
-				
+                
  
 
-		
+        
 
-		
+        
 
 
 
-	
+    

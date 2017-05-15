@@ -53,12 +53,14 @@ module.exports = function(app, passport) {
 	}));
 
 
-	app.get('/addtheatre', function(req, res) {
-		// render the page and pass in any flash data if it exists
-		res.render('addtheatre.pug', { message: req.flash('signupMessage') });
+	
+	app.get('/addtheatre', isLoggedIn, function(req, res) {
+		res.render('addtheatre.pug', {
+			user : req.user // get the user out of session and pass to template
+		});
 	});
 
-	// process the signup form
+	
 	app.post('/addtheatre', function(req,res) {
 		var t_id = req.body.t_id;
 		var t_location = req.body.t_location;
@@ -89,6 +91,68 @@ module.exports = function(app, passport) {
                 connection.query(insertQuery,[m_id, m_name, m_actors, m_director , m_releaseDate],function(err, rows) {
                     if (err) throw err;
                     	res.redirect('/addmovie');
+
+                 });
+	});
+
+	app.get('/addhall', isLoggedIn, function(req, res) {
+		res.render('addhall.pug', {
+			user : req.user // get the user out of session and pass to template
+		});
+	});
+	app.post('/addhall', function(req,res) {
+		var t_id = req.body.t_id;
+		var h_id = req.body.h_id;
+		var h_name = req.body.h_name;
+		var t_location = req.body.t_location;
+		var insertQuery = "INSERT INTO `movieticket`.`hall`(`hall_id`,`hall_name`,`Theatre_theatre_id`) values (?,?,?)";
+
+                connection.query("SELECT * FROM `movieticket`.`theatre` WHERE theatre_id = ?",[t_id],function(err, rows) {
+                    if (err) throw err;
+                    if (!rows.length) {
+                    	req.flash('info', 'NOT Have This Theatre')
+                    	res.redirect('/addhall');
+                    }else {
+                    	connection.query(insertQuery,[h_id,h_name,t_id],function(err, rows) {
+                    		if (err) throw err;
+                    			res.redirect('/addhall');
+          
+                        
+                    });
+
+                    }
+
+                 });
+	});
+
+	app.get('/addseats', isLoggedIn, function(req, res) {
+		res.render('addseats.pug', {
+			user : req.user // get the user out of session and pass to template
+		});
+	});
+	app.post('/addseats', function(req,res) {
+		var t_id = req.body.t_id;
+		var h_id = req.body.h_id;
+		var s_id = req.body.s_id;
+		var s_name = req.body.s_name;
+		var s_num = req.body.s_num;
+		var insertQuery = "INSERT INTO `movieticket`.`seats`(`seat_id`,`seat_name`,`seat_num`,`Hall_Theatre_theatre_id`,`Hall_hall_id`) values (?,?,?,?,?)";
+
+                connection.query("SELECT * FROM `movieticket`.`hall` WHERE `hall_id`= "+h_id+" AND `Theatre_theatre_id` = "+t_id,function(err, rows) {
+                    if (err) throw err;
+                    if (!rows.length) {
+                    	req.flash('info', 'NOT Have This Theatre')
+                    	res.redirect('/addseats');
+                    }else {
+                    	connection.query(insertQuery,[s_id,s_name,s_num,t_id,h_id],function(err, rows) {
+                    		if (err) throw err;
+                    			req.flash('info', 'Success')
+                    			res.redirect('/addseats');
+          
+                        
+                    });
+
+                    }
 
                  });
 	});

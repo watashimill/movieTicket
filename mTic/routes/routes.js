@@ -113,7 +113,12 @@ module.exports = function(app, passport) {
 		var h_name = req.body.h_name;
 		var t_location = req.body.t_location;
 		var insertQuery = "INSERT INTO `movieticket`.`hall`(`hall_id`,`hall_name`,`Theatre_theatre_id`) values (?,?,?)";
-
+			connection.query("SELECT * FROM `movieticket`.`hall` WHERE `hall_id` = "+h_id+" AND `Theatre_theatre_id` = "+t_id,function(err, rows) {
+                    if (err) throw err;
+                    if (rows.length) {
+                    	req.flash('hallMessage', 'The Hall in current Theatre is already exist')
+                    	res.redirect('/addhall');
+                }else {
                 connection.query("SELECT * FROM `movieticket`.`theatre` WHERE theatre_id = ?",[t_id],function(err, rows) {
                     if (err) throw err;
                     if (!rows.length) {
@@ -132,6 +137,8 @@ module.exports = function(app, passport) {
                     }
 
                  });
+            }
+          });
 	});
 
 	// =====================================

@@ -66,12 +66,20 @@ module.exports = function(app, passport) {
 		var t_id = req.body.t_id;
 		var t_location = req.body.t_location;
 		var insertQuery = "INSERT INTO `movieticket`.`theatre`(`theatre_id`,`location`) values (?,?)";
-
+			connection.query("SELECT * FROM `movieticket`.`theatre` WHERE `t_id` = "+t_id,function(err, rows) {
+                    if (err) throw err;
+                    if (rows.length) {
+                    	req.flash('theatreMessage', 'The currenty Theatre is already exist')
+                    	res.redirect('/addtheatre');
+                }else {
                 connection.query(insertQuery,[t_id ,t_location],function(err, rows) {
                     if (err) throw err;
+                    	req.flash('movieMessage', 'You successfully add Theatre. ')
                     	res.redirect('/addtheatre');
 
                  });
+               }
+         });
 	});
 
 	// =====================================
@@ -99,7 +107,7 @@ module.exports = function(app, passport) {
                 }else {
                 connection.query(insertQuery,[m_id, m_name, m_actors, m_director , m_releaseDate],function(err, rows) {
                     if (err) throw err;
-                    	req.flash('movieMessage', 'Well done! You successfully add Movie. ')
+                    	req.flash('movieMessage', 'You successfully add Movie. ')
                     	res.redirect('/addmovie');
 
                  });
@@ -134,7 +142,7 @@ module.exports = function(app, passport) {
                     }else {
                     	connection.query(insertQuery,[h_id,h_name,t_id],function(err, rows) {
                     		if (err) throw err;
-                    			req.flash('hallMessage', 'Success')
+                    			req.flash('hallMessage', 'You successfully add Hall')
                     			res.redirect('/addhall');
           
                         
@@ -174,7 +182,7 @@ module.exports = function(app, passport) {
                     }else {
                     	connection.query(insertQuery,[s_id,s_name,s_num,t_id,h_id],function(err, rows) {
                     		if (err) throw err;
-                    			req.flash('seatMessage', 'Success')
+                    			req.flash('seatMessage', 'You successfully add seat.')
                     			res.redirect('/addseats');
           
                         
@@ -211,7 +219,7 @@ module.exports = function(app, passport) {
                     }else {
                     	connection.query(insertQuery,[s_id,stS,stE,lang,m_id,t_id,h_id],function(err, rows) {
                     		if (err) throw err;
-                    			req.flash('showMessage', 'Success')
+                    			req.flash('showMessage', 'You successfully add Show.')
                     			res.redirect('/addshow');
           
                         

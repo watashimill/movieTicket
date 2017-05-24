@@ -57,9 +57,8 @@ module.exports = function(app, passport) {
 	// ADD THEATRE ===============================
 	// =====================================
 	app.get('/addtheatre', isLoggedIn, function(req, res) {
-		res.render('addtheatre.pug', {
-			user : req.user // get the user out of session and pass to template
-		});
+		
+		res.render('addtheatre.pug', { message: req.flash('theatreMessage') , user : req.user});
 	});
 
 	
@@ -80,9 +79,8 @@ module.exports = function(app, passport) {
 	// =====================================
 	
 	app.get('/addmovie', isLoggedIn, function(req, res) {
-		res.render('addmovie.pug', {
-			user : req.user // get the user out of session and pass to template
-		});
+	
+		res.render('addmovie.pug', { message: req.flash('movieMessage') , user : req.user});
 	});
 
 	// process the signup form
@@ -93,12 +91,20 @@ module.exports = function(app, passport) {
 		var m_director = req.body.m_director;
 		var m_releaseDate = req.body.m_releaseDate;
 		var insertQuery = "INSERT INTO `movieticket`.`movie`(`m_id`,`m_name`,`actors`,`director`,`release_date`) values (?,?,?,?,?)";
-
+			connection.query("SELECT * FROM `movieticket`.`movie` WHERE `m_id` = "+m_id+" OR `m_name` = "+m_name,function(err, rows) {
+                    if (err) throw err;
+                    if (rows.length) {
+                    	req.flash('movieMessage', 'The currenty Movie is already exist')
+                    	res.redirect('/addmovie');
+                }else {
                 connection.query(insertQuery,[m_id, m_name, m_actors, m_director , m_releaseDate],function(err, rows) {
                     if (err) throw err;
+                    	req.flash('movieMessage', 'Well done! You successfully add Movie. ')
                     	res.redirect('/addmovie');
 
                  });
+            }
+         });
 	});
 	// =====================================
 	// ADD Hall ===============================
@@ -157,7 +163,7 @@ module.exports = function(app, passport) {
 			connection.query("SELECT * FROM `movieticket`.`seats` WHERE `seat_id`= "+s_id+" AND `Hall_hall_id` = "+h_id+" AND `Hall_Theatre_theatre_id` = "+t_id,function(err, rows) {
                     if (err) throw err;
                     if (rows.length) {
-                    	req.flash('seatMessage', 'This Seat is already exist')
+                    	req.flash('seatMessage', 'Seat in current Hall is already exist')
                     	res.redirect('/addshow');
                 }else {
                 connection.query("SELECT * FROM `movieticket`.`hall` WHERE `hall_id`= "+h_id+" AND `Theatre_theatre_id` = "+t_id,function(err, rows) {

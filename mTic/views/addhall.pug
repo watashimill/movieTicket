@@ -23,7 +23,11 @@ block content
           li.nav-item
             a.nav-link(href='/addmovie') 
               | Add Movie
-          |       
+          |  
+          li.nav-item
+            a.nav-link(href='/addshow') Add Show
+            |
+               
           li.nav-item
             a.nav-link(href='/addtheatre')  
               | Add Theatre
@@ -54,8 +58,10 @@ block content
         |
         span.badge.badge-default Add Hall   
     br
-    .container
-      
+    .container 
+      if message.length
+        .alert.alert-danger= message
+
 
       form(action="/addhall" method="post",style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )
         .form-group.row

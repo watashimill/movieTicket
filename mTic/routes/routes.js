@@ -96,9 +96,8 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/addhall', isLoggedIn, function(req, res) {
-		res.render('addhall.pug', {
-			user : req.user // get the user out of session and pass to template
-		});
+		
+		res.render('addhall.pug', { message: req.flash('hallMessage') , user : req.user});
 	});
 	app.post('/addhall', function(req,res) {
 		var t_id = req.body.t_id;
@@ -110,11 +109,13 @@ module.exports = function(app, passport) {
                 connection.query("SELECT * FROM `movieticket`.`theatre` WHERE theatre_id = ?",[t_id],function(err, rows) {
                     if (err) throw err;
                     if (!rows.length) {
-                    	req.flash('info', 'NOT Have This Theatre')
+
+                    	req.flash('hallMessage', 'NOT Have This Theatre');
                     	res.redirect('/addhall');
                     }else {
                     	connection.query(insertQuery,[h_id,h_name,t_id],function(err, rows) {
                     		if (err) throw err;
+                    			req.flash('hallMessage', 'Success')
                     			res.redirect('/addhall');
           
                         
@@ -126,9 +127,7 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/addseats', isLoggedIn, function(req, res) {
-		res.render('addseats.pug', {
-			user : req.user // get the user out of session and pass to template
-		});
+		res.render('addseats.pug', { message: req.flash('seatMessage') , user : req.user});
 	});
 	app.post('/addseats', function(req,res) {
 		var t_id = req.body.t_id;
@@ -137,17 +136,57 @@ module.exports = function(app, passport) {
 		var s_name = req.body.s_name;
 		var s_num = req.body.s_num;
 		var insertQuery = "INSERT INTO `movieticket`.`seats`(`seat_id`,`seat_name`,`seat_num`,`Hall_Theatre_theatre_id`,`Hall_hall_id`) values (?,?,?,?,?)";
-
+			connection.query("SELECT * FROM `movieticket`.`seats` WHERE `seat_id`= "+s_id+" AND `Hall_hall_id` = "+h_id+" AND `Hall_Theatre_theatre_id` = "+t_id,function(err, rows) {
+                    if (err) throw err;
+                    if (rows.length) {
+                    	req.flash('seatMessage', 'This Seat is already exist')
+                    	res.redirect('/addseats');
+                }else {
                 connection.query("SELECT * FROM `movieticket`.`hall` WHERE `hall_id`= "+h_id+" AND `Theatre_theatre_id` = "+t_id,function(err, rows) {
                     if (err) throw err;
                     if (!rows.length) {
-                    	req.flash('info', 'NOT Have This Theatre')
+                    	req.flash('seatMessage', 'NOT Have This Theatre or Hall')
                     	res.redirect('/addseats');
                     }else {
                     	connection.query(insertQuery,[s_id,s_name,s_num,t_id,h_id],function(err, rows) {
                     		if (err) throw err;
-                    			req.flash('info', 'Success')
+                    			req.flash('seatMessage', 'Success')
                     			res.redirect('/addseats');
+          
+                        
+                    });
+
+                    }
+
+                 });
+            }
+         });
+
+	});
+
+	app.get('/addshow', isLoggedIn, function(req, res) {
+		res.render('addshow.pug', { message: req.flash('showMessage') , user : req.user});
+	});
+	app.post('/addshow', function(req,res) {
+		var t_id = req.body.t_id;
+		var h_id = req.body.h_id;
+		var s_id = req.body.s_id;
+		var stS = req.body.stS;
+		var stE = req.body.stE;
+		var lang = req.body.lang;
+		var m_id = req.body.m_id;
+		var insertQuery = "INSERT INTO `movieticket`.`show`(`show_id`,`st_time`,`end_time`,`language`,`Movie_m_id`,`Hall_Theatre_theatre_id`,`Hall_hall_id`)values (?,?,?,?,?,?,?)";
+
+                connection.query("SELECT * FROM `movieticket`.`show` WHERE `show_id`= "+s_id,function(err, rows) {
+                    if (err) throw err;
+                    if (rows.length) {
+                    	req.flash('showMessage', 'This Show is already exist')
+                    	res.redirect('/addshow');
+                    }else {
+                    	connection.query(insertQuery,[s_id,stS,stE,lang,m_id,t_id,h_id],function(err, rows) {
+                    		if (err) throw err;
+                    			req.flash('showMessage', 'Success')
+                    			res.redirect('/addshow');
           
                         
                     });

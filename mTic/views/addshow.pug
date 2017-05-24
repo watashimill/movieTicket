@@ -20,84 +20,101 @@ block content
   
       #navbarNav.collapse.navbar-collapse
         ul.navbar-nav 
-          li.nav-item.active
+          li.nav-item
             a.nav-link(href='/addmovie') 
               | Add Movie
           |  
-          li.nav-item
+          li.nav-item.active
             a.nav-link(href='/addshow') Add Show
             |
-               
+            span.sr-only (current)
+          |         
           li.nav-item
             a.nav-link(href='/addtheatre')  
               | Add Theatre
-              span.sr-only 
+              
           
-          |     
-
+          |
           li.nav-item
             a.nav-link(href='/addhall') Add Hall
             |
             span.sr-only 
           |       
+
           li.nav-item
             a.nav-link(href='/addseats') Add Seats
             |
-            span.sr-only 
-          |               
+            
+          |    
+                          
           li.nav-item
             a.nav-link(href='/adminprofile') Admin Profile
             |
             span.sr-only 
           |
-               
+          
           li.nav-item
             a.nav-link(href='/logout') Logout       
           
   
     h1
         |
-        span.badge.badge-default Add Movie    
+        span.badge.badge-default Add Show 
     br
-    .container
-      
+    .container 
+      if message.length
+        .alert.alert-danger= message
+        
 
-      form(action="/addmovie" method="post",style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )
+      form(action="/addshow" method="post",style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )
         .form-group.row
-          label.col-sm-2.col-form-label(style='margin : 20px 0px 0px 50px;' align="right") Movie ID :
+          label.col-sm-2.col-form-label(style='margin : 20px 0px 0px 50px;' align="right") Show ID :
           |       
           .col5
-            input.form-control(name="m_id",placeholder='Movie ID', type='text' style='margin : 20px 0px 0px 50px;' )
+            input.form-control(name="s_id",placeholder='Show ID', type='text' style='margin : 20px 0px 0px 50px;' )
         |     
         .form-group.row
-          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Movie Name :
+          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Show Time (Start) :
           |       
           .col5
-            input.form-control(name="m_name",placeholder='Movie Name', type='text' style='margin : 0px 0px 0px 50px;')
+            input.form-control(name="stS",placeholder='Start Time', type='text' style='margin : 0px 0px 0px 50px;')
+        | 
+        .form-group.row
+          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Show Time (End) :
+          |       
+          .col5
+            input.form-control(name="stE",placeholder='End Time', type='text' style='margin : 0px 0px 0px 50px;')
+        |  
+        .form-group.row
+          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Language :
+          |       
+          .col5
+            input.form-control(name="lang",placeholder='Language', type='text' style='margin : 0px 0px 0px 50px;')
+        |  
+        .form-group.row
+          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Movie ID :
+          |       
+          .col5
+            input.form-control(name="m_id",placeholder='Movie ID', type='text' style='margin : 0px 0px 0px 50px;')
         |     
         .form-group.row
-          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Actors :
+          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Theatre ID :
           |       
           .col5
-            input.form-control(name="m_actors",placeholder='Actors', type='text' style='margin : 0px 0px 0px 50px;')
-        |
+            input.form-control(name="t_id",placeholder='Theatre ID', type='text' style='margin : 0px 0px 0px 50px;')
+        |  
         .form-group.row
-          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Director :
+          label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Hall ID :
           |       
           .col5
-            input.form-control(name="m_director",placeholder='Director', type='text' style='margin : 0px 0px 0px 50px;')
-        |
-        .form-group.row
-          label.col-sm-2.col-form-label( style='margin : 0px 0px 0px 50px;' align="right") Release Date :
-          |       
-          .col5
-            input.form-control(name="m_releaseDate",placeholder='Release Date', type='text' style='margin : 0px 0px 0px 50px;')
-        |
+            input.form-control(name="h_id",placeholder='Hall ID', type='text' style='margin : 0px 0px 0px 50px;')
+        |      
+        
                             
         .form-group.row
           .offset-sm-2.col-sm-10
             button.btn.btn-warning.btn-lg(type='submit') Submit
-  
+
 
     
 

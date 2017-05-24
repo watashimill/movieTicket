@@ -23,7 +23,10 @@ block content
           li.nav-item
             a.nav-link(href='/addmovie') 
               | Add Movie
-          |       
+          |     
+          li.nav-item
+            a.nav-link(href='/addshow') Add Show
+            |  
           li.nav-item
             a.nav-link(href='/addtheatre')  
               | Add Theatre
@@ -51,7 +54,9 @@ block content
         span.badge.badge-default Add Seats   
     br
     .container
-      
+      if message.length
+        .alert.alert-danger= message
+
 
       form(action="/addseats" method="post",style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )
         .form-group.row
@@ -70,19 +75,19 @@ block content
           label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Seats ID :
           |       
           .col5
-            input.form-control(name="s_id",placeholder='Hall Name', type='text' style='margin : 0px 0px 0px 50px;')
+            input.form-control(name="s_id",placeholder='Seats ID', type='text' style='margin : 0px 0px 0px 50px;')
         | 
         .form-group.row
           label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Seats Name :
           |       
           .col5
-            input.form-control(name="s_name",placeholder='Hall Name', type='text' style='margin : 0px 0px 0px 50px;')
+            input.form-control(name="s_name",placeholder='Seats Name', type='text' style='margin : 0px 0px 0px 50px;')
         | 
         .form-group.row
           label.col-sm-2.col-form-label(style='margin : 0px 0px 0px 50px;' align="right") Seats Number :
           |       
           .col5
-            input.form-control(name="s_num",placeholder='Hall Name', type='text' style='margin : 0px 0px 0px 50px;')
+            input.form-control(name="s_num",placeholder='Seats Number', type='text' style='margin : 0px 0px 0px 50px;')
         |          
         
                             

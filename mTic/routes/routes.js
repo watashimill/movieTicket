@@ -53,7 +53,9 @@ module.exports = function(app, passport) {
 	}));
 
 
-	
+	// =====================================
+	// ADD THEATRE ===============================
+	// =====================================
 	app.get('/addtheatre', isLoggedIn, function(req, res) {
 		res.render('addtheatre.pug', {
 			user : req.user // get the user out of session and pass to template
@@ -73,6 +75,10 @@ module.exports = function(app, passport) {
                  });
 	});
 
+	// =====================================
+	// ADD MOVIE ===============================
+	// =====================================
+	
 	app.get('/addmovie', isLoggedIn, function(req, res) {
 		res.render('addmovie.pug', {
 			user : req.user // get the user out of session and pass to template
@@ -94,7 +100,9 @@ module.exports = function(app, passport) {
 
                  });
 	});
-
+	// =====================================
+	// ADD Hall ===============================
+	// =====================================
 	app.get('/addhall', isLoggedIn, function(req, res) {
 		
 		res.render('addhall.pug', { message: req.flash('hallMessage') , user : req.user});
@@ -126,6 +134,9 @@ module.exports = function(app, passport) {
                  });
 	});
 
+	// =====================================
+	// ADD SEATS ===============================
+	// =====================================
 	app.get('/addseats', isLoggedIn, function(req, res) {
 		res.render('addseats.pug', { message: req.flash('seatMessage') , user : req.user});
 	});
@@ -140,7 +151,7 @@ module.exports = function(app, passport) {
                     if (err) throw err;
                     if (rows.length) {
                     	req.flash('seatMessage', 'This Seat is already exist')
-                    	res.redirect('/addseats');
+                    	res.redirect('/addshow');
                 }else {
                 connection.query("SELECT * FROM `movieticket`.`hall` WHERE `hall_id`= "+h_id+" AND `Theatre_theatre_id` = "+t_id,function(err, rows) {
                     if (err) throw err;
@@ -163,7 +174,9 @@ module.exports = function(app, passport) {
          });
 
 	});
-
+	// =====================================
+	// ADD SHOW ===============================
+	// =====================================
 	app.get('/addshow', isLoggedIn, function(req, res) {
 		res.render('addshow.pug', { message: req.flash('showMessage') , user : req.user});
 	});
@@ -195,7 +208,9 @@ module.exports = function(app, passport) {
 
                  });
 	});
-
+	// =====================================
+	// ADMIN LOGIN ===============================
+	// =====================================
 	app.get('/admin', function(req, res) {
 
 		// render the page and pass in any flash data if it exists
@@ -230,14 +245,18 @@ module.exports = function(app, passport) {
 			user : req.user // get the user out of session and pass to template
 		});
 	});
-
+	// =====================================
+	// ADMIN PROFILE SECTION ===============================
+	// =====================================
 	app.get('/adminprofile', isLoggedIn, function(req, res) {
 		res.render('adminprofile.pug', {
 			user : req.user // get the user out of session and pass to template
 		});
 	});
-
-	//Booking SECTION
+	
+	// =====================================
+	//Booking SECTION ++++++++++++++++++++++
+	// =====================================
 	app.get('/booking', isLoggedIn, function(req, res) {
 		res.render('booking.pug', {
 			user : req.user // get the user out of session and pass to template

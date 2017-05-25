@@ -168,11 +168,11 @@ module.exports = function(app, passport) {
 		var s_name = req.body.s_name;
 		var s_num = req.body.s_num;
 		var insertQuery = "INSERT INTO `movieticket`.`seats`(`seat_id`,`seat_name`,`seat_num`,`Hall_Theatre_theatre_id`,`Hall_hall_id`) values (?,?,?,?,?)";
-			connection.query("SELECT * FROM `movieticket`.`seats` WHERE `seat_id`= "+s_id+" AND `Hall_hall_id` = "+h_id+" AND `Hall_Theatre_theatre_id` = "+t_id,function(err, rows) {
+			connection.query("SELECT * FROM `movieticket`.`seats` WHERE `seat_id`= '"+s_id+"' AND `Hall_hall_id` = "+h_id+" AND `Hall_Theatre_theatre_id` = "+t_id,function(err, rows) {
                     if (err) throw err;
                     if (rows.length) {
                     	req.flash('seatMessage', 'Seat in current Hall is already exist')
-                    	res.redirect('/addshow');
+                    	res.redirect('/addseats');
                 }else {
                 connection.query("SELECT * FROM `movieticket`.`hall` WHERE `hall_id`= "+h_id+" AND `Theatre_theatre_id` = "+t_id,function(err, rows) {
                     if (err) throw err;
@@ -180,7 +180,7 @@ module.exports = function(app, passport) {
                     	req.flash('seatMessage', 'NOT Have This Theatre or Hall')
                     	res.redirect('/addseats');
                     }else {
-                    	connection.query(insertQuery,[s_id,s_name,s_num,t_id,h_id],function(err, rows) {
+                    	connection.query("INSERT INTO `movieticket`.`seats`(`seat_id`,`seat_name`,`seat_num`,`Hall_Theatre_theatre_id`,`Hall_hall_id`)VALUES('"+s_id+"','"+s_name+"',"+s_num+","+t_id+","+h_id+");",function(err, rows) {
                     		if (err) throw err;
                     			req.flash('success', 'You successfully add seat.')
                     			res.redirect('/addseats');

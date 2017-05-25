@@ -58,7 +58,11 @@ block content
         span.badge.badge-default Add Theatre   
     br
     .container
-      
+      if message.length
+        .alert.alert-danger= message
+      if success.length
+        .alert.alert-success= success
+
 
       form(action="/addtheatre" method="post",style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )
         .form-group.row

@@ -59,9 +59,12 @@ block content
         |
         span.badge.badge-default Add Movie    
     br
-    .container
-      
-
+    .container 
+      if message.length
+        .alert.alert-danger= message
+      if success.length
+        .alert.alert-success= success
+        
       form(action="/addmovie" method="post",style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )
         .form-group.row
           label.col-sm-2.col-form-label(style='margin : 20px 0px 0px 50px;' align="right") Movie ID :

@@ -34,15 +34,14 @@ block content
               
           
           |
-          li.nav-item
+          li.nav-item.active
             a.nav-link(href='/addhall') Add Hall
             |
-            span.sr-only 
-          |       
-          li.nav-item.active
-            a.nav-link(href='/addseats') Add Seats
-            |
             span.sr-only (current)
+          |       
+          li.nav-item
+            a.nav-link(href='/addseats') Add Seats
+            
           |                    
           li.nav-item
             a.nav-link(href='/adminprofile') Admin Profile
@@ -57,10 +56,13 @@ block content
     h1
         |
         span.badge.badge-default Add Hall   
+
     br
     .container 
       if message.length
         .alert.alert-danger= message
+      if success.length
+        .alert.alert-success= success
 
 
       form(action="/addhall" method="post",style='display: inline-block; border: 2px solid #BABDBC; background-color: #f1f1f1; width:60%; ' )

@@ -58,7 +58,7 @@ module.exports = function(app, passport) {
 	// =====================================
 	app.get('/addtheatre', isLoggedIn, function(req, res) {
 		
-		res.render('addtheatre.pug', { message: req.flash('theatreMessage') , user : req.user});
+		res.render('addtheatre.pug', { message: req.flash('theatreMessage'),success: req.flash('success') , user : req.user});
 	});
 
 	
@@ -66,7 +66,7 @@ module.exports = function(app, passport) {
 		var t_id = req.body.t_id;
 		var t_location = req.body.t_location;
 		var insertQuery = "INSERT INTO `movieticket`.`theatre`(`theatre_id`,`location`) values (?,?)";
-			connection.query("SELECT * FROM `movieticket`.`theatre` WHERE `t_id` = "+t_id,function(err, rows) {
+			connection.query("SELECT * FROM `movieticket`.`theatre` WHERE `theatre_id` = "+t_id,function(err, rows) {
                     if (err) throw err;
                     if (rows.length) {
                     	req.flash('theatreMessage', 'The currenty Theatre is already exist')
@@ -74,7 +74,7 @@ module.exports = function(app, passport) {
                 }else {
                 connection.query(insertQuery,[t_id ,t_location],function(err, rows) {
                     if (err) throw err;
-                    	req.flash('movieMessage', 'You successfully add Theatre. ')
+                    	req.flash('success', 'You successfully add Theatre. ')
                     	res.redirect('/addtheatre');
 
                  });
@@ -88,7 +88,7 @@ module.exports = function(app, passport) {
 	
 	app.get('/addmovie', isLoggedIn, function(req, res) {
 	
-		res.render('addmovie.pug', { message: req.flash('movieMessage') , user : req.user});
+		res.render('addmovie.pug', { message: req.flash('movieMessage') ,success: req.flash('success'),user : req.user});
 	});
 
 	// process the signup form
@@ -99,7 +99,7 @@ module.exports = function(app, passport) {
 		var m_director = req.body.m_director;
 		var m_releaseDate = req.body.m_releaseDate;
 		var insertQuery = "INSERT INTO `movieticket`.`movie`(`m_id`,`m_name`,`actors`,`director`,`release_date`) values (?,?,?,?,?)";
-			connection.query("SELECT * FROM `movieticket`.`movie` WHERE `m_id` = "+m_id+" OR `m_name` = "+m_name,function(err, rows) {
+			connection.query("SELECT * FROM `movieticket`.`movie` WHERE `m_id` = "+m_id,function(err, rows) {
                     if (err) throw err;
                     if (rows.length) {
                     	req.flash('movieMessage', 'The currenty Movie is already exist')
@@ -107,7 +107,7 @@ module.exports = function(app, passport) {
                 }else {
                 connection.query(insertQuery,[m_id, m_name, m_actors, m_director , m_releaseDate],function(err, rows) {
                     if (err) throw err;
-                    	req.flash('movieMessage', 'You successfully add Movie. ')
+                    	req.flash('success', 'You successfully add Movie. ')
                     	res.redirect('/addmovie');
 
                  });
@@ -119,7 +119,7 @@ module.exports = function(app, passport) {
 	// =====================================
 	app.get('/addhall', isLoggedIn, function(req, res) {
 		
-		res.render('addhall.pug', { message: req.flash('hallMessage') , user : req.user});
+		res.render('addhall.pug', { message: req.flash('hallMessage') ,success: req.flash('success'), user : req.user});
 	});
 	app.post('/addhall', function(req,res) {
 		var t_id = req.body.t_id;
@@ -142,7 +142,7 @@ module.exports = function(app, passport) {
                     }else {
                     	connection.query(insertQuery,[h_id,h_name,t_id],function(err, rows) {
                     		if (err) throw err;
-                    			req.flash('hallMessage', 'You successfully add Hall')
+                    			req.flash('success', 'You successfully add Hall')
                     			res.redirect('/addhall');
           
                         
@@ -159,7 +159,7 @@ module.exports = function(app, passport) {
 	// ADD SEATS ===============================
 	// =====================================
 	app.get('/addseats', isLoggedIn, function(req, res) {
-		res.render('addseats.pug', { message: req.flash('seatMessage') , user : req.user});
+		res.render('addseats.pug', { message: req.flash('seatMessage'),success: req.flash('success') , user : req.user});
 	});
 	app.post('/addseats', function(req,res) {
 		var t_id = req.body.t_id;
@@ -182,7 +182,7 @@ module.exports = function(app, passport) {
                     }else {
                     	connection.query(insertQuery,[s_id,s_name,s_num,t_id,h_id],function(err, rows) {
                     		if (err) throw err;
-                    			req.flash('seatMessage', 'You successfully add seat.')
+                    			req.flash('success', 'You successfully add seat.')
                     			res.redirect('/addseats');
           
                         
@@ -199,7 +199,7 @@ module.exports = function(app, passport) {
 	// ADD SHOW ===============================
 	// =====================================
 	app.get('/addshow', isLoggedIn, function(req, res) {
-		res.render('addshow.pug', { message: req.flash('showMessage') , user : req.user});
+		res.render('addshow.pug', { message: req.flash('showMessage'),success: req.flash('success') , user : req.user});
 	});
 	app.post('/addshow', function(req,res) {
 		var t_id = req.body.t_id;
@@ -219,7 +219,7 @@ module.exports = function(app, passport) {
                     }else {
                     	connection.query(insertQuery,[s_id,stS,stE,lang,m_id,t_id,h_id],function(err, rows) {
                     		if (err) throw err;
-                    			req.flash('showMessage', 'You successfully add Show.')
+                    			req.flash('success', 'You successfully add Show.')
                     			res.redirect('/addshow');
           
                         

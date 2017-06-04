@@ -3,15 +3,15 @@ extends layout
 block content
   
   link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css', integrity='sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ', crossorigin='anonymous')
+  script(src='https://code.jquery.com/jquery-3.1.1.slim.min.js', integrity='sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n', crossorigin='anonymous')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js', integrity='sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb', crossorigin='anonymous')
   script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js', integrity='sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn', crossorigin='anonymous')
-  
-  
-  
+
   html
   head
   
-  body
-    nav.navbar.navbar-toggleable-md.navbar-inverse(style='background-color: #660033;').bg-faded
+  body(style='background-image: url("bg2.jpg"); background-size:100%;')
+    nav.navbar.navbar-toggleable-md.sticky-top.navbar-inverse(style='background-color: #660033;').bg-faded
       button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
       |   
@@ -21,24 +21,210 @@ block content
       #navbarNav.collapse.navbar-collapse
         ul.navbar-nav
           
+          li.nav-item
+            a.nav-link(href='/profile') UserProfile
+          |   
           li.nav-item.active
             a.nav-link(href='/booking') 
               | Booking
               span.sr-only (current)
-          |       
-          li.nav-item
-            a.nav-link(href='/profile') UserProfile
-          |       
+          |         
           li.nav-item
             a.nav-link(href='/logout') Logout
           |       
+    br      
+    
+    
+    .jumbotron
+      .container
+        div
+        h1
+          span.badge.badge-default Booking
+          span &nbsp;| &nbsp;
+              h4(style=" display: inline;") Buy Tickets &nbsp;
           
-    h1
-        |
-        span.badge.badge-default Booking
-    
+          .btn-group
+            button#movie.btn.btn-secondary.dropdown-toggle(style="width :250px;" type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Select Movie
+            |   
+            .dropdown-menu#movielist
+          span &nbsp;
+              h4(style=" display: inline;") At &nbsp;
+          .btn-group
+            button#location.btn.btn-secondary.dropdown-toggle(style="width :250px;" type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Select Theatre
+            |   
+            .dropdown-menu#locationlist
 
-    
+          span &nbsp; &nbsp;
+          a.btn.btn-danger(href='#', role='button' onclick="showtime()") SHOWTIME
+        div
+          div#picmovie(style=" display: inline;")
+          |
+          div#showtime(style=" display: inline;")
+        #line
+        br
+        
+        #screen(align="center")
+        #seats(align="left")
+        #book(align="center")
+
+
+  script(type='text/javascript').
+    var movie;
+    var location;
+    window.onload = function(){ getMovie() };
+      ////////////////////////////////////////Get Movie From database to  create dropdown//////////////////////////////////////////////////////////
+      function getMovie() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        movie = JSON.parse(this.responseText);
+        var ele='';
+        for (var i=0;i<movie.length;i++){//selectMovie to display name on dropdown and getLocation to get location that show movie selected
+          ele +='<a class="dropdown-item" name="movieName" href="#" onclick="selectMovie('+i+'); getLocation();">'+movie[i].m_name+'</a>';
+          }
+          document.getElementById("movielist").innerHTML = ele;
+          
+        }
+        movie = [];
+      };
+      xhttp.open("GET", "/getMovie", true);
+      xhttp.send();
+      }
+
+      function selectMovie(x){// display movie on dropdown
+        var movieName = document.getElementsByName("movieName");
+        document.getElementById("movie").innerHTML = movieName[x].innerHTML;
+      }
+
+      ///////////////////////////////////////////////////////Get location of movie///////////////////////////////////////////////
+      function getLocation() {
+      var xhttp = new XMLHttpRequest();
+      var loca;
+      var Moviename = document.getElementById("movie").innerHTML;
+      //console.log("M name :",Moviename);
+      xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        loca = JSON.parse(this.responseText);
+        var ele='';
+        for (var i=0;i<loca.length;i++){
+          ele +='<a class="dropdown-item" name="locaName" href="#" onclick="selectLoca('+i+')">'+loca[i].location+'</a>';
+          }
+          document.getElementById("locationlist").innerHTML = ele;
+        }
+      };
+      xhttp.open("GET", "/getLocation?Movie="+Moviename, true);
+      xhttp.send();
+      }
+
+      function selectLoca(x){
+        var locaName = document.getElementsByName("locaName");
+        document.getElementById("location").innerHTML = locaName[x].innerHTML;
+      }
+
+      ////////////////////////////////////////////////Query showtime using movie name and location///////////////////////////////////
+      function showtime(){
+      document.getElementById("seats").innerHTML = '';
+        var Mname = document.getElementById("movie").innerHTML;
+        var locaName = document.getElementById("location").innerHTML;
+        console.log(locaName);
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var card = '<br><img class="card-img-top" src="'+Mname+'.jpg" width="300" height="150" style="box-shadow: 5px 5px 5px grey;"> &nbsp;&nbsp;&nbsp;';
+            document.getElementById("picmovie").innerHTML = card;
+            var ele = '';
+            var showtime = JSON.parse(this.responseText);
+            for (var i=0;i<showtime.length;i++){
+              ele += '<button type="button" class="btn btn-success" style="vertical-align: top; margin-left:10px;" onclick="getSeats(this.innerHTML)">'+showtime[i].st_time+'</button> &nbsp;'
+                   //console.log(showtime[i].st_time);
+                    }
+              document.getElementById("showtime").innerHTML = ele;
+               document.getElementById("line").innerHTML = '<br><hr class="my-6">';
+              showtime = [];
+          }
+        };
+        xhttp.open("GET", "/getShowtime?Mname="+Mname+"&Tname="+locaName, true);
+        xhttp.send();
+      }
+      
+      ////////////////////////////////////////Query seats for movie,location and showtime that selected////////////////
+      function getSeats(time){
+        var Mname = document.getElementById("movie").innerHTML;
+        var locaName = document.getElementById("location").innerHTML;
+        var shTime = time;
+        var ele = '';
+        var screen = '';
+        //console.log(Mname,locaName,time);
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var seats = JSON.parse(this.responseText);
+            screen += '<h3>SCREEN</h3><img class="card-img-top" src="screen.png" width="800" height="100">';
+            document.getElementById("screen").innerHTML = screen;
+            console.log(seats,seats.length-1);
+            var seatID = 1;
+            ele += '<form  method="get" >';
+            if( seats.length == 1){///if no seats booked
+              for(var i=seats.length-1;i>-1;i--){
+                  for(var k=seats[i].length-1;k>-1;k--){
+                    if(k%5==4){
+                    ele += '<br><br>';
+                    }
+                    if(seatID<9){
+                    ele +=  '<input style="margin-left:160px;" type="checkbox" name="seatID" value='+'"0'+seatID+'"'+'> '+seats[i][k].seat_name+seats[i][k].seat_num;
+                    } else {
+                    ele +=  '<input style="margin-left:160px; " type="checkbox" name="seatID" value='+'"'+seatID+'"'+'> '+seats[i][k].seat_name+seats[i][k].seat_num;
+                    }
+                    
+                    console.log(seats[i][k].seat_name,seats[i][k].seat_num);
+                    seatID += 1;
+                  }   
+              }
+            } else {
+                for(var i=seats[0].length-1;i>-1;i--){
+                
+                //console.log(i,seats[0][i].seat_name,seats[0][i].seat_num);
+                  for(var k=seats[1].length-1;k>-1;k--){
+                  console.log(seats[0][i]);
+                  //console.log(seats[]);
+                     //- if((seats[0][i].seat_name == seats[1][k].seat_name) && (seats[0][i].seat_num == seats[1][k].seat_num)){
+                     //-    if(seatID<9){
+                     //-    ele +=  '<input style="margin-left:160px;" type="checkbox" name="seatID" value='+'"0'+seatID+'"'+' disabled > '+seats[i][k].seat_name+seats[i][k].seat_num;
+                     //-    } else {
+                     //-    ele +=  '<input style="margin-left:160px; " type="checkbox" name="seatID" value='+'"'+seatID+'"'+' disabled > '+seats[i][k].seat_name+seats[i][k].seat_num;
+                     //-    }
+                     //- //console.log('equal',i,k,seats[0][i].seat_name,seats[0][i].seat_num);      
+                     //- } else {
+
+                  }
+                  //console.log(i,k,seats[0][i].seat_name,seats[0][i].seat_num);
+                }
+            }
+            ele += '<br><br><input class="btn btn-success" type="submit" value="Submit" style="margin-left:46%;">';
+            ele += '</form>'
+            //- if(i%5==4){
+            //-   ele += '<br><br>';
+            //- }
+
+            document.getElementById("seats").innerHTML = ele;
+            //document.getElementById("book").innerHTML = '<button class="btn btn-success"  >Confirm</button>';
+            seats = [];
+          }
+        };
+        xhttp.open("GET", "/getSeats?M="+Mname+"&T="+locaName+"&S="+time, true);
+        xhttp.send();
+      }
+
+      function book(a){
+      var data = a.innerHTML;
+      alert(data);
+      //var seat = $('#seats label.active input').val();
+      //console.log(document.getElementById("seats").innerHTML);
+      }
+
+
+
+
 
 
 

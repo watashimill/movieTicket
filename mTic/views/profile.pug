@@ -12,11 +12,11 @@ block content
 	
 	body
 		
-		nav.navbar.navbar-toggleable-md.navbar-inverse(style='background-color: #660033;').bg-faded
+		nav.navbar.navbar-toggleable-md.sticky-top.navbar-inverse(style='background-color: #660033;').bg-faded
 			button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
 				span.navbar-toggler-icon
 			|   
-			a.navbar-brand(href='/') Movie Tickets
+			a.navbar-brand(href='/') Movie Tickets 4.0
 			|
 
 			#navbarNav.collapse.navbar-collapse
@@ -31,6 +31,10 @@ block content
 						|
 						span.sr-only (current)
 					|       
+					li.nav-item
+						a.nav-link(href='/tickets') Tickets
+							
+					|  
 					li.nav-item
 						a.nav-link(href='/logout') Logout
 				 
@@ -55,6 +59,8 @@ block content
 			p.mb-0 
 			| Email
 			footer.blockquote-footer= user.c_email
+			| Status
+			footer.blockquote-footer= user.role
 			
 				 
 			

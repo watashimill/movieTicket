@@ -6,12 +6,9 @@ module.exports = function(app, passport) {
 	// HOME PAGE (with login links) ========
 	// =====================================
 	app.get('/', function(req, res) {
-		connection.query('INSERT INTO tickets SET ?', {price: '160'}, function(err, result) {
-  	if (err) throw err;
 
-  	console.log(result.insertId);
 		res.render('home.pug'); //load index
-		});
+
 
 	});
 
@@ -257,6 +254,7 @@ module.exports = function(app, passport) {
 	// we will want this protected so you have to be logged in to visit
 	// we will use route middleware to verify this (the isLoggedIn function)
 	app.get('/profile', isLoggedIn, function(req, res) {
+
 		res.render('profile.pug', {
 			user : req.user // get the user out of session and pass to template
 		});
@@ -304,9 +302,36 @@ module.exports = function(app, passport) {
 	// =====================================
 	app.get('/booking', isLoggedIn, function(req, res) {
 		res.render('booking.pug', {
-			user : req.user // get the user out of session and pass to template
+		user : req.user // get the user out of session and pass to template
 		});
 	});
+
+	app.post('/booking?', isLoggedIn, function(req, res) {
+		var price = '160';
+		var customerID = req.user.id;
+		var hallID = req.body.H_id;
+		var theatreID = req.body.T_id;
+		var seatsID = req.body.seatID;
+		var showID = req.body.sh_id;
+		console.log(seatsID);
+
+		var insertQuery = 'INSERT INTO `movieticket`.`tickets`(`price`,`Customer_id`,`Show_show_id`,`Seats_Hall_Theatre_theatre_id`,`Seats_Hall_hall_id`,`Seats_seat_id`)values (?,?,?,?,?,?)';
+		for (var i = 0; i < seatsID.length+1; i++) {
+
+
+		connection.query(insertQuery,[price,customerID,showID,theatreID,hallID,seatsID[i]],function(err, rows) {
+                    		if (err) throw err;
+
+
+
+                    });
+										req.flash('success', 'You successfully Buy tickets.');
+										res.redirect('/tickets');
+		}
+
+
+	});
+
 	app.get('/getMovie',function(req,res){
 		connection.query('Select m_name from movie', function(err, rows) {
 			if (!err){
@@ -334,7 +359,7 @@ module.exports = function(app, passport) {
 		var Mname = req.query.Mname;
 		var Tname = req.query.Tname;
 		console.log(Mname,Tname);
-		connection.query('SELECT shows.st_time FROM shows INNER JOIN movie ON movie.m_id = shows.Movie_m_id INNER JOIN theatre ON theatre.theatre_id = shows.Hall_Theatre_theatre_id WHERE movie.m_name = '+'"'+Mname+'"'+' AND theatre.location ='+'"'+Tname+'"', function(err, rows) {
+		connection.query('SELECT  shows.show_id,shows.st_time,theatre.theatre_id FROM shows INNER JOIN movie ON movie.m_id = shows.Movie_m_id INNER JOIN theatre ON theatre.theatre_id = shows.Hall_Theatre_theatre_id WHERE movie.m_name = '+'"'+Mname+'"'+' AND theatre.location ='+'"'+Tname+'"', function(err, rows) {
 			if (!err){
 				res.send(JSON.stringify(rows));
 			} else {
@@ -349,7 +374,7 @@ module.exports = function(app, passport) {
 		var S = req.query.S;//showtime
 		var g = [];
 		console.log(typeof(g));
-		var query2 = 'SELECT DISTINCT seats.seat_name,seats.seat_num,tickets.Seats_Hall_hall_id, tickets.Seats_Hall_Theatre_theatre_id,theatre.location,shows.st_time '+
+		var query2 = 'SELECT DISTINCT seats.seat_name,seats.seat_num,tickets.Seats_Hall_hall_id, tickets.Seats_Hall_Theatre_theatre_id,theatre.location,shows.st_time,show_id '+
         			'FROM tickets '+
         			'INNER JOIN shows ON shows.show_id = tickets.Show_show_id and shows.Hall_hall_id = tickets.Seats_Hall_hall_id '+
         			'INNER JOIN seats ON seats.seat_id = tickets.Seats_seat_id '+
@@ -364,9 +389,6 @@ module.exports = function(app, passport) {
 			'WHERE  theatre.location = '+'"'+T+'"'+' AND shows.st_time = '+'"'+S+'"'+' AND movie.m_name = '+'"'+M+'"', function(err, rows) {
 			if (!err){
 				g.push(rows);
-				console.log(typeof(g));
-				console.log('g1:',g);
-				//res.send();
 			} else {
 				console.log('Error while performing Query.');
 			}
@@ -377,15 +399,15 @@ module.exports = function(app, passport) {
             	res.send(JSON.stringify(g));
                 console.log("No Seats Book");
             }else{
-            	console.log('result : ',result);
+            	//console.log('result : ',result);
                 g.push(result);
-                console.log('g2 : ',g);
-                console.log(typeof(g));
+
                 res.send(JSON.stringify(g));
             }
         });
 
 	});
+
 
 
 	// =====================================

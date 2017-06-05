@@ -15,20 +15,24 @@ block content
       button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
       |   
-      a.navbar-brand(href='/') Movie Tickets
+      a.navbar-brand(href='/') Movie Tickets 4.0
       |
 
       #navbarNav.collapse.navbar-collapse
         ul.navbar-nav
-          
-          li.nav-item
-            a.nav-link(href='/profile') UserProfile
-          |   
+             
           li.nav-item.active
             a.nav-link(href='/booking') 
               | Booking
               span.sr-only (current)
-          |         
+          |
+          li.nav-item
+            a.nav-link(href='/profile') UserProfile
+          |   
+          li.nav-item
+            a.nav-link(href='/tickets') Tickets
+          | 
+                   
           li.nav-item
             a.nav-link(href='/logout') Logout
           |       
@@ -57,7 +61,7 @@ block content
           span &nbsp; &nbsp;
           a.btn.btn-danger(href='#', role='button' onclick="showtime()") SHOWTIME
         div
-          div#picmovie(style=" display: inline;")
+          div#picmovie(style=" display: inline;") 
           |
           div#showtime(style=" display: inline;")
         #line
@@ -71,6 +75,9 @@ block content
   script(type='text/javascript').
     var movie;
     var location;
+    var c_id,sh_id,T_id,H_id,S_id;
+    //var c_id = <%=userID%>;
+    //console.log(c_id) ;
     window.onload = function(){ getMovie() };
       ////////////////////////////////////////Get Movie From database to  create dropdown//////////////////////////////////////////////////////////
       function getMovie() {
@@ -96,7 +103,7 @@ block content
         document.getElementById("movie").innerHTML = movieName[x].innerHTML;
       }
 
-      ///////////////////////////////////////////////////////Get location of movie///////////////////////////////////////////////
+      /////////////////////////////////////////////Get location of movie////////////////////////////////////////
       function getLocation() {
       var xhttp = new XMLHttpRequest();
       var loca;
@@ -126,7 +133,7 @@ block content
       document.getElementById("seats").innerHTML = '';
         var Mname = document.getElementById("movie").innerHTML;
         var locaName = document.getElementById("location").innerHTML;
-        console.log(locaName);
+        //console.log(locaName);
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
@@ -134,11 +141,20 @@ block content
             document.getElementById("picmovie").innerHTML = card;
             var ele = '';
             var showtime = JSON.parse(this.responseText);
+            if(showtime.length != 0){
+            sh_id = showtime[0].show_id;
+            T_id = showtime[0].theatre_id;/////////////////////theatre_id for ticket//////////////////
+            console.log('show id:',sh_id);
+            console.log('theatre id:',T_id);
+            }
             for (var i=0;i<showtime.length;i++){
               ele += '<button type="button" class="btn btn-success" style="vertical-align: top; margin-left:10px;" onclick="getSeats(this.innerHTML)">'+showtime[i].st_time+'</button> &nbsp;'
                    //console.log(showtime[i].st_time);
                     }
               document.getElementById("showtime").innerHTML = ele;
+              if(showtime.length == 0){
+              document.getElementById("showtime").innerHTML = '<br><h1>No information available for this release.</h1>';
+              }
                document.getElementById("line").innerHTML = '<br><hr class="my-6">';
               showtime = [];
           }
@@ -149,6 +165,7 @@ block content
       
       ////////////////////////////////////////Query seats for movie,location and showtime that selected////////////////
       function getSeats(time){
+      document.getElementById("seats").innerHTML = '';
         var Mname = document.getElementById("movie").innerHTML;
         var locaName = document.getElementById("location").innerHTML;
         var shTime = time;
@@ -159,52 +176,67 @@ block content
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
             var seats = JSON.parse(this.responseText);
+            H_id = seats[0][0].Hall_hall_id;
+            console.log('hall id:',H_id);
+            
             screen += '<h3>SCREEN</h3><img class="card-img-top" src="screen.png" width="800" height="100">';
             document.getElementById("screen").innerHTML = screen;
-            console.log(seats,seats.length-1);
-            var seatID = 1;
-            ele += '<form  method="get" >';
+            //console.log(seats,seats.length-1);
+            var seatID = 15;
+            ele += '<form action="/booking" method="POST" style="padding-left:90px;">';
+            ele += '<input name="T_id" value="'+T_id+'" style="display:none;">';
+            ele += '<input name="H_id" value="'+H_id+'" style="display:none;">';
+            ele += '<input name="sh_id" value="'+sh_id+'" style="display:none;">';
             if( seats.length == 1){///if no seats booked
               for(var i=seats.length-1;i>-1;i--){
                   for(var k=seats[i].length-1;k>-1;k--){
                     if(k%5==4){
                     ele += '<br><br>';
                     }
-                    if(seatID<9){
-                    ele +=  '<input style="margin-left:160px;" type="checkbox" name="seatID" value='+'"0'+seatID+'"'+'> '+seats[i][k].seat_name+seats[i][k].seat_num;
+                    if(seatID<=9){
+                    ele +=  '<input style="margin-left:125px;" type="checkbox" name="seatID" value='+'"0'+seatID+'"'+'> '+seats[i][k].seat_name+seats[i][k].seat_num;
                     } else {
-                    ele +=  '<input style="margin-left:160px; " type="checkbox" name="seatID" value='+'"'+seatID+'"'+'> '+seats[i][k].seat_name+seats[i][k].seat_num;
+                    ele +=  '<input style="margin-left:125px; " type="checkbox" name="seatID" value='+'"'+seatID+'"'+'> '+seats[i][k].seat_name+seats[i][k].seat_num;
                     }
                     
-                    console.log(seats[i][k].seat_name,seats[i][k].seat_num);
-                    seatID += 1;
+                    //console.log(seats[i][k].seat_name,seats[i][k].seat_num);
+                    seatID -= 1;
                   }   
               }
             } else {
                 for(var i=seats[0].length-1;i>-1;i--){
-                
-                //console.log(i,seats[0][i].seat_name,seats[0][i].seat_num);
                   for(var k=seats[1].length-1;k>-1;k--){
-                  console.log(seats[0][i]);
-                  //console.log(seats[]);
-                     //- if((seats[0][i].seat_name == seats[1][k].seat_name) && (seats[0][i].seat_num == seats[1][k].seat_num)){
-                     //-    if(seatID<9){
-                     //-    ele +=  '<input style="margin-left:160px;" type="checkbox" name="seatID" value='+'"0'+seatID+'"'+' disabled > '+seats[i][k].seat_name+seats[i][k].seat_num;
-                     //-    } else {
-                     //-    ele +=  '<input style="margin-left:160px; " type="checkbox" name="seatID" value='+'"'+seatID+'"'+' disabled > '+seats[i][k].seat_name+seats[i][k].seat_num;
-                     //-    }
-                     //- //console.log('equal',i,k,seats[0][i].seat_name,seats[0][i].seat_num);      
-                     //- } else {
+                  //console.log(i,k);
+                      if(i%5==4){
+                      ele += '<br>';
+                      }
+                      if((seats[0][i].seat_name == seats[1][k].seat_name) && (seats[0][i].seat_num == seats[1][k].seat_num)){
+                         if(seatID<=9){
+                         ele +=  '<input style="margin-left:125px;" type="checkbox" name="seatID" value='+'"0'+seatID+'"'+' disabled > '+seats[0][i].seat_name+seats[0][i].seat_num;
+                         } else {
+                         ele +=  '<input style="margin-left:125px;" type="checkbox" name="seatID" value='+'"'+seatID+'"'+' disabled > '+seats[0][i].seat_name+seats[0][i].seat_num;
+                         }
+                        seatID -= 1;
+                         break;
+                      }
 
+                      if(k==0){
+                         if(seatID<=9){
+                         ele +=  '<input style="margin-left:125px;" type="checkbox" name="seatID" value='+'"0'+seatID+'"'+' > '+seats[0][i].seat_name+seats[0][i].seat_num;
+                         } else {
+                         ele +=  '<input style="margin-left:125px;" type="checkbox" name="seatID" value='+'"'+seatID+'"'+' > '+seats[0][i].seat_name+seats[0][i].seat_num;
+                         }
+                         seatID -= 1;
+                         break;
+                      }
+                       
                   }
-                  //console.log(i,k,seats[0][i].seat_name,seats[0][i].seat_num);
                 }
+                
             }
-            ele += '<br><br><input class="btn btn-success" type="submit" value="Submit" style="margin-left:46%;">';
+            ele += '<br><br><input class="btn btn-success" type="submit" value="Submit" style="margin-left:41%;">';
             ele += '</form>'
-            //- if(i%5==4){
-            //-   ele += '<br><br>';
-            //- }
+            
 
             document.getElementById("seats").innerHTML = ele;
             //document.getElementById("book").innerHTML = '<button class="btn btn-success"  >Confirm</button>';
@@ -214,14 +246,8 @@ block content
         xhttp.open("GET", "/getSeats?M="+Mname+"&T="+locaName+"&S="+time, true);
         xhttp.send();
       }
-
-      function book(a){
-      var data = a.innerHTML;
-      alert(data);
-      //var seat = $('#seats label.active input').val();
-      //console.log(document.getElementById("seats").innerHTML);
-      }
-
+      
+      
 
 
 

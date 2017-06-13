@@ -25,11 +25,11 @@ block content
 							
 					|       
 					li.nav-item.active
-						a.nav-link(href='/login') Customer 
+						a.nav-link(href='/admin') Login as administrator 
 					
 					|
 					li.nav-item
-						a.nav-link(href='/admin') Login as administrator
+						a.nav-link(href='/login') Customer
 					|              
 	
 	.container
@@ -55,12 +55,9 @@ block content
 
 			|   
 			.form-group
-				label Remember Me                     
-				input.form-control(name='remember', value='yes', type='checkbox')
-									
 				button.btn.btn-info.btn-lg(type='submit') Login 
 				=  ' '
-				
+				br
 				br
 				a.btn.btn-secondary(href='/signin' , role='button' ) Login as Customer
 
